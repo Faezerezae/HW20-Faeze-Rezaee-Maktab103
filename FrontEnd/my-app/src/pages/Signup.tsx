@@ -95,7 +95,7 @@ console.log(password,username)
                     onClick={handleSignup}
                     className="w-full h-12 rounded-full bg-slate-600 hover:bg-black text-white whitespace-nowrap font-bold text-center absolute  top-[500px] right-0"
                 >
-                    Sign Up
+                    Signup
                 </button>
             </div>
         </div>

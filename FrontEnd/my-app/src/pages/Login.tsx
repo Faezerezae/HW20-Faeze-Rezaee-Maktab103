@@ -25,13 +25,12 @@ export const LoginPage: React.FC = () => {
             const response: IAuthResponse = await loginApi(body);
             const sesssion = new Session();
             sesssion.setAccessToken(response.token);
+            // console.log(response)
             navigate('/tasks');
-
         }catch (error:any) {
             settextError(`*${error.response.data.message}`)
           }
     };
-
 
     return (
         <div className="w-[430px] h-[920px] m-0 p-4 mx-auto">
@@ -92,7 +91,7 @@ export const LoginPage: React.FC = () => {
                     onClick={handleLogin}
                     className="w-full h-12 rounded-full bg-slate-600 hover:bg-black text-white whitespace-nowrap font-bold text-center absolute top-[500px] right-0"
                 >
-                    Sign In
+                    Login
                 </button>
             </div>
         </div>

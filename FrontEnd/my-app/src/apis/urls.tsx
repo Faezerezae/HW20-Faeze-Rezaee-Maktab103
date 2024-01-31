@@ -9,3 +9,7 @@ export const userUrls = {
   userInfo: "/user",
 };
 
+export const taskUrls = {
+  task: "/task",
+};
+

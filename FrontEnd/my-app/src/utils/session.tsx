@@ -1,5 +1,5 @@
 export class Session {
-  private tokenKey: string = "sneaker-storage-access-token";
+  private tokenKey: string = "task-storage-access-token";
   public token: string | null = null;
 
   constructor() {
