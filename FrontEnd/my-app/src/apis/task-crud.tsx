@@ -3,8 +3,6 @@ import { Session } from "../utils/session";
 import { serverUrl, taskUrls } from "./urls";
 import { errorHandler } from "../utils/errorHandler";
 
-
-
 export interface ITaskResponse {
   task: {
     id: number;
@@ -13,14 +11,13 @@ export interface ITaskResponse {
   };
 }
 
-
 export interface ITaskBody {
   id?: number;
   title: string;
   description: string;
   isCompletedTask?: boolean;
+  onDelete?:any;
 }
-
 
 const session = new Session();
 
@@ -33,10 +30,6 @@ export const TaskApi: TaskFuncType = async (body: ITaskBody) => {
   const response = await axios.post(serverUrl + taskUrls.task, body,{headers});
   return response.data as ITaskResponse;
 };
-
-
-
-
 
 type getTaskFuncType = () => Promise<ITaskResponse>;
 export const getTaskInfoApi: getTaskFuncType = async () => {
@@ -55,17 +48,18 @@ export const TaskInfo = async () => {
   }
 };
 
-
 export const deleteTaskApi = async (taskId?: number) => {
   const headers = {
     Authorization: `Bearer ${session.token}`,
     'Content-Type': 'application/json',
   };
-  await axios.delete(`${serverUrl}${taskUrls.task}/${taskId}`, {headers,});
+ const response= await axios.delete(`${serverUrl}${taskUrls.task}/${taskId}`, {headers,});
+return response.data ;
+
 };
 
 
-export const TaskCard = ({ title, id, isCompletedTask, description }: ITaskBody) => {
+export const TaskCard = ({ title, id, isCompletedTask, description, onDelete }: ITaskBody) => {
 
   return (<div className="grid grid-cols-1 gap-y-3 w-full my-4 p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
     <span className="text-md font-medium text-gray-900 dark:text-white">
@@ -79,7 +73,7 @@ export const TaskCard = ({ title, id, isCompletedTask, description }: ITaskBody)
         className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
         data-btn-action="remove"
         data-task-id={id}
-        onClick={() => deleteTaskApi(id)}
+        onClick={() => onDelete(id)}
       >
         Remove
       </button>

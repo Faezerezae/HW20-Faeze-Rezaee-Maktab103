@@ -6,6 +6,12 @@ import { ITaskBody, TaskApi, TaskCard, TaskInfo, deleteTaskApi } from '../apis/t
 
 export function Tasks() {
   const [userInfo, setUserInfo] = useState<IUserInfoReponse | null>(null);
+  const fetchData = async () => {
+    const taskInfo: any = await TaskInfo();
+    console.log(taskInfo)
+    setTasks(taskInfo);
+  };
+
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -14,6 +20,7 @@ export function Tasks() {
     };
 
     fetchUserInfo();
+    fetchData();
   }, []);
 
   const [title, setTitle] = useState("");
@@ -21,17 +28,18 @@ export function Tasks() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [tasks, setTasks] = useState<ITaskBody[]>([]);
-   const sesssion = new Session();
+
+
   const handleSubmit = async () => {
     const body: ITaskBody = {
       title,
       description,
     };
-
     try {
       const response: any = await TaskApi(body);
       console.log(response)
       setSuccess("Task created successfully.");
+      fetchData();
       setError("");
       setTitle("");
       setDescription("");
@@ -42,14 +50,6 @@ export function Tasks() {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const taskInfo: any = await TaskInfo();
-      console.log(taskInfo)
-      setTasks(taskInfo);
-    };
-    fetchData();
-  }, [tasks]);
 
 
   const handleDeleteTask = async (taskId: number) => {
@@ -135,7 +135,7 @@ export function Tasks() {
       <div>
         <div>
           {tasks && tasks.map((task: any) => (
-            <TaskCard key={task.id} {...task} onDelete={handleDeleteTask}/>
+            <TaskCard key={task.id} {...task} onDelete={handleDeleteTask} />
           ))}
         </div>
       </div>
@@ -143,5 +143,3 @@ export function Tasks() {
     </div>
   );
 }
-
-// 
